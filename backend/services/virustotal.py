@@ -20,10 +20,12 @@ def scan_virustotal(url):
 
 
         if stats.get('malicious',0) > 0:
-            return "malicioso"
+            return True
 
         elif stats.get('suspicious',0) > 0:
-            return "Sospechoso"
+            return True
+        else:
+            return False
 
 
     except Exception as e:

@@ -24,7 +24,6 @@ def urlscan(url):
 
     response = requests.post(url_d, headers=headers, json=payload)
     data_id = response.json()['uuid']
-    print(data_id)
 
     time.sleep(40)
     scan_id = data_id

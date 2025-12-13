@@ -1,15 +1,13 @@
 import validators
 from flask import abort, request
-
 def validator_url():
-
     if not request.is_json:
         abort(415, description="Invalid input")
 
     data = request.get_json()
 
     if len(data) != 1:
-        abort(400, description= "Invalid input")
+        abort(400, description="Invalid input")
 
     if not data or 'url' not in data:
         abort(400, description='Invalid input')
@@ -20,9 +18,9 @@ def validator_url():
         abort(400, description='Invalid format')
 
     if not url:
-        abort(400, description= "Invalid input")
+        abort(400, description="Invalid input")
 
     if not validators.url(url):
-        abort(400, description= "Invalid input")
+        abort(400, description="Invalid input")
     else:
         return url

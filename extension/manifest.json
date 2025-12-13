@@ -1,0 +1,33 @@
+{
+    "manifest_version": 3,
+    "name": "Phishing Guardian",
+    "version": "1.0",
+    "description": "Scan urls for phishing",
+
+    "permissions": [
+        "tabs",
+        "webNavigation",
+        "storage",
+        "notifications"
+    ],
+
+    "host_permissions":[
+        "<all_urls>"
+    ],
+
+    "background": {
+        "service_worker": "background.js"
+    },
+
+    "action": {
+        "default_popup": "popup/popup.html"
+    },
+
+    "icons": {
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+    }
+}
+
+

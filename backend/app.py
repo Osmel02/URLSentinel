@@ -14,9 +14,8 @@ def scan():
         url = validator_url()
         response_correlator = result_correlator(url)
 
-        return jsonify({
-            "Hola": 1
-        })
+        return response_correlator
+
 
     except Exception as e:
         abort(500, description=f"Error interno: {e}")

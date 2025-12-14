@@ -10,9 +10,9 @@ def scan_op(url):
         url_set = set(line.strip() for line in response.text.splitlines() if line.strip())
 
         if url in url_set:
-            return True
+            return bool(True)
         else:
-            return False
+            return bool(False)
 
     except Exception as e:
         return e

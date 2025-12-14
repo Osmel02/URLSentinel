@@ -21,17 +21,20 @@ def urlscan(url):
             "testing"
         ]
     }
+    try:
+        response = requests.post(url_d, headers=headers, json=payload)
+        data_id = response.json()['uuid']
 
-    response = requests.post(url_d, headers=headers, json=payload)
-    data_id = response.json()['uuid']
+        time.sleep(40)
+        scan_id = data_id
 
-    time.sleep(40)
-    scan_id = data_id
+        url_r = "https://urlscan.io/api/v1/result/" + scan_id + "/"
+        headers = {"api-key": api_key}
 
-    url_r = "https://urlscan.io/api/v1/result/" + scan_id + "/"
-    headers = {"api-key": api_key}
+        response = requests.get(url_r, headers=headers)
+        data = response.json()["verdicts"]["urlscan"]['malicious']
 
-    response = requests.get(url_r, headers=headers)
-    data = response.json()["verdicts"]["urlscan"]['malicious']
+        return data
 
-    return data
+    except Exception as e:
+        return e

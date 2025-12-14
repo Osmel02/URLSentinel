@@ -6,11 +6,19 @@ from services.openphish import scan_op
 
 
 def result_correlator(url):
-    #resultado_vt = scan_virustotal(url)
-    resultado_urlscan = urlscan(url)
-    resultado_op = scan_op(url)
+    r_vt = scan_virustotal(url)
+    resultado_vt = r_vt if isinstance(r_vt, bool) else None
 
-    if resultado_urlscan is bool and resultado_op is bool:
-        print("Hello Word")
+    r_uc = urlscan(url)
+    resultado_urlscan = r_uc if isinstance(r_uc, bool) else None
+
+    r_op = scan_op(url)
+    resultado_op = r_op if isinstance(r_op, bool) else None
+
+    return jsonify({
+        "VIRUSTOTAL": resultado_vt,
+        "URLSCAN": resultado_urlscan,
+        "OPENPHISH": resultado_op
+    })
 
 

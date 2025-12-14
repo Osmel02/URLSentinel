@@ -118,127 +118,106 @@ project/
     - Logs JSON para integración SIEM
         
 
----
+# URLSentinel
 
-## **5️⃣ Modelo ML**
+Detecta y bloquea URLs maliciosas (phishing/malware) en tiempo real mediante una extensión de navegador integrada con un backend en Python y fuentes de Threat Intelligence.
 
-- Tipo: RandomForest / XGBoost / LightGBM
-    
-- Input: features de la URL (`preprocess.py`)
-    
-    - longitud URL, dominio, path
-        
-    - cantidad de `.` `-` `@`
-        
-    - parámetros `?`
-        
-    - HTTPS/IP
-        
-    - entropía del string
-        
-- Output:
-    
+## Descripción
 
-```json
-{"label": "phishing"|"benign", "score": 0.0-1.0}
+URLSentinel combina Machine Learning y señales externas (VirusTotal, OpenPhish, URLScan) para evaluar y bloquear URLs sospechosas antes de que el usuario las visite. Incluye página de bloqueo, dashboard de métricas y logs en formato JSON listos para integración SIEM.
+
+## Características
+
+- Detección híbrida: modelo ML + Threat Intelligence.
+- Bloqueo inmediato con página de rechazo personalizable.
+- Dashboard simple para métricas en tiempo real.
+- Logs estructurados y preparados para análisis y SIEM.
+
+## Estructura del repositorio
+
+- backend/ — API, ML y servicios externos.
+- extension/ — código de la extensión (background, popup, página de bloqueo).
+- assets/ — imágenes y recursos estáticos.
+
+## Instalación (desarrollo)
+
+1. Crear y activar un entorno virtual (PowerShell):
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r backend/requeriment.txt
 ```
 
-- Guardado como `model.pkl` y cargado en `predict.py`
-    
-- Threshold configurable para decisión final
-    
+2. Ejecutar el backend (ajusta según la implementación: Flask o Uvicorn):
+
+```powershell
+cd backend
+python app.py
+# o: uvicorn app:app --reload --port 8000
+```
+
+3. Cargar la extensión en modo desarrollador en el navegador apuntando a la carpeta `extension`.
+
+## Uso
+
+- La extensión captura la URL activa y hace POST a `/analyze` en el backend.
+- El backend devuelve un JSON con `score` y `block`. Si `block:true`, la extensión redirige a la página de bloqueo.
+
+Ejemplo de respuesta:
+
+```json
+{
+  "url": "http://malicious.example",
+  "score": 1.8,
+  "block": true,
+  "details": { "ml": {...}, "virustotal": {...} }
+}
+```
+
+## Arquitectura y flujo
+
+1. Extensión (`extension/background.js`) captura la URL.
+2. POST `/analyze` al backend.
+3. Backend: extracción de features (`backend/ml/preprocess.py`), predicción (`backend/ml/predict.py`), consultas a servicios externos y correlación.
+4. Respuesta → decisión de la extensión (permitir / bloquear).
+
+## Modelo ML y correlación
+
+- El modelo (RandomForest / LightGBM / XGBoost) aporta una probabilidad; señales externas (VT, OpenPhish, URLScan) se ponderan y se suman en un score final. El umbral es configurable.
+
+## Archivos clave
+
+- [backend/requeriment.txt](backend/requeriment.txt)
+- [backend/ml/predict.py](backend/ml/predict.py)
+- [backend/services](backend/services)
+- [extension/background.js](extension/background.js)
+- [extension/block/block.html](extension/block/block.html)
+
+## Desarrollo y buenas prácticas
+
+- Mantener API keys fuera del repo (variables de entorno).
+- Añadir pruebas unitarias para `preprocess.py` y `predict.py`.
+- Implementar caching con TTL y consultas asíncronas a servicios externos.
+
+## Producción (recomendaciones)
+
+- Ejecutar el backend detrás de HTTPS y con autenticación (API keys) y rate limiting.
+- Registración de logs en JSON y exportación de métricas a Prometheus/ELK.
+
+## Contribuir
+
+- Abrir issues para bugs o mejoras.
+- Enviar pull requests con descripción y pruebas.
+
+## Licencia
+
+Consulta el archivo [LICENSE](LICENSE) en la raíz del repositorio.
 
 ---
 
-## **6️⃣ Correlación y Sistema de Pesos**
-
-- Pesos sugeridos:
-    
-    - ML: 0.4
-        
-    - VirusTotal: 0.8
-        
-    - OpenPhish: 1.0
-        
-    - URLScan: 0.5
-        
-- Score total = sum(peso * indicador)
-    
-- Umbral recomendado: 1.3 → bloquear si score ≥ umbral
+Versión: 1.0 — README actualizado.
     
 
----
-
-## **7️⃣ Extensión del Navegador**
-
-- **background.js**: captura URLs y llama backend
-    
-- **block/block.html**: página de bloqueo profesional
-    
-- **popup/**: dashboard de métricas
-    
-- **Funciones avanzadas**:
-    
-    - Notificaciones opcionales
-        
-    - Continuar bajo riesgo
-        
-    - Estadísticas y logs en tiempo real
-        
-
----
-
-## **8️⃣ Logs y Métricas**
-
-- Archivo `events.log` con JSON de cada URL analizada
-    
-- Métricas en memoria (`metrics.py`) para dashboard:
-    
-    - total URLs analizadas
-        
-    - bloqueadas / permitidas
-        
-    - detectadas por ML
-        
-    - alertas de Threat Intelligence
-        
-
----
-
-## **9️⃣ Recomendaciones para Producción**
-
-- HTTPS, autenticación y rate limiting
-    
-- Caching de URLs y resultados
-    
-- Entrenamiento periódico del ML
-    
-- Dashboard y UX profesional
-    
-- Empaquetar extensión correctamente y minimizar JS/CSS
-    
-- Mantener API Keys seguros
-    
 - Pruebas extensas con URLs reales benignas y maliciosas
-    
-
----
-
-## **🔟 Checklist de Implementación**
-
-|Paso|Estado|
-|---|---|
-|Estructura de carpetas|✅|
-|Backend FastAPI|✅|
-|Modelo ML entrenado y `predict.py`|✅|
-|Integración con VT, OpenPhish, URLScan|✅|
-|Correlación con pesos y umbral|✅|
-|Página de bloqueo|✅|
-|Dashboard de métricas|✅|
-|Logs estructurados|✅|
-|Seguridad básica backend|⚠ (Recomendado HTTPS/Keys)|
-|Empaquetado extensión|⚠ (Preparar para Chrome/Firefox)|
-
----
-
 

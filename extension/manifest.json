@@ -1,8 +1,12 @@
 {
     "manifest_version": 3,
-    "name": "Phishing Guardian",
+    "name": "URLSentinel",
+    "description": "Escaner de urls en busca de amenazas",
     "version": "1.0",
-    "description": "Scan urls for phishing",
+
+    "background": {
+        "service_worker": "background.js"
+    },
 
     "permissions": [
         "tabs",
@@ -11,23 +15,17 @@
         "notifications"
     ],
 
-    "host_permissions":[
+    "host_permissions": [
         "<all_urls>"
     ],
 
-    "background": {
-        "service_worker": "background.js"
-    },
-
-    "action": {
-        "default_popup": "popup/popup.html"
-    },
-
-    "icons": {
+    "icons":{
         "16": "icons/icon16.png",
         "48": "icons/icon48.png",
         "128": "icons/icon128.png"
+    },
+
+    "action":{
+        "default_popup": "popup/popup.html"
     }
 }
-
-

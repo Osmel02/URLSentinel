@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Sentinel - Página Bloqueada</title>
+    <link rel="stylesheet" href="block_page.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="warning-icon">⚠️</div>
+            <h1>Página Bloqueada</h1>
+        </div>
+        
+        <div class="content">
+            <section class="description">
+                <h2>Seguridad Detectada</h2>
+                <p>URL Sentinel ha detectado que esta página contiene contenido potencialmente malicioso. Tu seguridad es nuestra prioridad.</p>
+            </section>
+
+            <section class="details">
+                <h3>Resultados del Análisis</h3>
+                <div id="analysisResults" class="analysis-box">
+                    <p class="loading">Cargando información...</p>
+                </div>
+            </section>
+
+            <section class="url-section">
+                <h3>URL Bloqueada</h3>
+                <div class="url-box" id="urlBox">
+                    <p id="blockedUrl">Cargando URL...</p>
+                </div>
+            </section>
+
+            <section class="risks">
+                <h3>⚡ Riesgos Potenciales</h3>
+                <ul>
+                    <li>Malware o spyware</li>
+                    <li>Phishing o fraude</li>
+                    <li>Robo de datos personales</li>
+                    <li>Contenido malicioso</li>
+                </ul>
+            </section>
+
+            <section class="actions">
+                <h3>¿Qué deseas hacer?</h3>
+                <div class="button-group">
+                    <button id="proceedBtn" class="btn btn-proceed">
+                        <span class="icon">🔓</span>
+                        Continuar bajo mi riesgo
+                    </button>
+                    <button id="blockBtn" class="btn btn-block">
+                        <span class="icon">🚫</span>
+                        Mantener bloqueada
+                    </button>
+                    <button id="goBackBtn" class="btn btn-secondary">
+                        <span class="icon">⬅️</span>
+                        Volver
+                    </button>
+                </div>
+            </section>
+
+            <section class="disclaimer">
+                <p><strong>Descargo de responsabilidad:</strong> Si decides continuar, asumes todos los riesgos de seguridad. URL Sentinel no se responsabiliza por daños resultantes de acceder a esta página.</p>
+            </section>
+        </div>
+
+        <div class="footer">
+            <p>Protegido por URL Sentinel • Extensión de Seguridad Inteligente</p>
+        </div>
+    </div>
+
+    <script src="block_page.js"></script>
+</body>
+</html>

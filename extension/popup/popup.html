@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Sentinel</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="popup-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <h1>🛡️ URL Sentinel</h1>
+                <div class="status-indicator">
+                    <span class="status-dot" id="statusDot"></span>
+                    <span class="status-text" id="statusText">Verificando...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="statistics-section">
+            <div class="stat-card">
+                <div class="stat-icon visited">🌐</div>
+                <div class="stat-content">
+                    <span class="stat-label">Visitadas</span>
+                    <span class="stat-number" id="visitedCount">0</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon malicious">⚠️</div>
+                <div class="stat-content">
+                    <span class="stat-label">Maliciosas</span>
+                    <span class="stat-number" id="maliciousCount">0</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon safe">✓</div>
+                <div class="stat-content">
+                    <span class="stat-label">Seguras</span>
+                    <span class="stat-number" id="safeCount">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="tabs-navigation">
+            <button class="tab-btn active" data-tab="overview">Resumen</button>
+            <button class="tab-btn" data-tab="allowed">Permitidas</button>
+            <button class="tab-btn" data-tab="blocked">Bloqueadas</button>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tabs-content">
+            <!-- Overview Tab -->
+            <div class="tab-content active" id="overview">
+                <div class="section-title">Estado de Conexión</div>
+                <div class="backend-status">
+                    <div class="status-item">
+                        <span class="status-label">Backend</span>
+                        <span class="status-badge" id="backendStatus">Desconocido</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Última verificación</span>
+                        <span class="status-value" id="lastCheck">Nunca</span>
+                    </div>
+                </div>
+
+                <div class="section-title">Información</div>
+                <div class="info-box">
+                    <p>URL Sentinel monitorea automáticamente todas las páginas web que visitas, verificando su seguridad en tiempo real mediante múltiples servicios de análisis.</p>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="resetStatsBtn">Resetear Estadísticas</button>
+                </div>
+            </div>
+
+            <!-- Allowed URLs Tab -->
+            <div class="tab-content" id="allowed">
+                <div class="section-title">URLs Permitidas bajo Riesgo</div>
+                <div class="urls-list" id="allowedList">
+                    <div class="empty-state">
+                        <p>📭 No hay URLs permitidas</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blocked URLs Tab -->
+            <div class="tab-content" id="blocked">
+                <div class="section-title">URLs Bloqueadas</div>
+                <div class="urls-list" id="blockedList">
+                    <div class="empty-state">
+                        <p>✓ Todas las URLs maliciosas están bloqueadas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Protegido por URL Sentinel</p>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>

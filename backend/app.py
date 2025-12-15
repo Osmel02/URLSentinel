@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, abort
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 from utils.validator import validator_url
 from utils.correlator import result_correlator
@@ -8,6 +8,7 @@ app = Flask(__name__)
 CORS(app)
 
 @app.route('/analyze', methods = ['POST', 'OPTIONS'])
+@cross_origin(origins=['chrome-extension://eehdojlgccffbpfggmnkibmebdflegpm'])
 def scan():
 
     try:
